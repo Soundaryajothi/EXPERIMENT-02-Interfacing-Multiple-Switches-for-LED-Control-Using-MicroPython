@@ -8,7 +8,7 @@
 
 ## ROLL NO: 212223220108
 
-## DATE OF EXPERIMENT: 12.02.2026
+## DATE OF EXPERIMENT: 11.02.2026
 
 ## AIM
 
@@ -52,8 +52,7 @@ A MicroPython script reads the switch states and controls the LEDs accordingly.
 
 ### CIRCUIT DIAGRAM
  ![image](https://github.com/user-attachments/assets/1c7234b9-5041-4156-94b8-0b846adb6b8e)
-    
-Figure-01 circuit diagram of digital input interface 
+    Figure-01 circuit diagram of digital input interface 
 
 
 Connect switch 1 to GP2 and switch 2 to GP3.
@@ -64,109 +63,105 @@ Connect LED 2 to GP17 via a 330Ω resistor.
 
 Connect the other terminals of the switches to GND.
 
-## PROGRAM 2A:
+## PROGRAM (MicroPython)
+### EXPERIMENT 2A:
 ```
 from machine import Pin
 from time import sleep
 
-switch1 = Pin(1, Pin.IN, Pin.PULL_UP)
-switch2 = Pin(27, Pin.IN, Pin.PULL_UP)
+print("Welcome Pi Pico")
 
-led1 = Pin(14, Pin.OUT)
-led2 = Pin(17, Pin.OUT)
+# Switches with internal pull-ups
+switch1 = Pin(2, Pin.IN, Pin.PULL_UP)
+switch2 = Pin(3, Pin.IN, Pin.PULL_UP)
+
+# LEDs
+led1 = Pin(15, Pin.OUT)
+led2 = Pin(16, Pin.OUT)
 
 while True:
-    sw1_state = switch1.value()
+    sw1_state = switch1.value()  # 0 when pressed, 1 when released
     sw2_state = switch2.value()
-
+    
     print("Switch 1 state:", sw1_state)
     print("Switch 2 state:", sw2_state)
-
+    
+    # Turn off LEDs by default
     led1.value(0)
     led2.value(0)
-
+    
     if sw1_state == 1 and sw2_state == 1:
+        # Both pressed -> both LEDs off
         led1.value(0)
         led2.value(0)
-
-    elif sw1_state == 0:   # pressed (PULL_UP → pressed = 0)
+    elif sw1_state == 1:
+        # Only switch1 pressed -> blink led1
+        led1.value(0)
+        sleep(0.5)
         led1.value(1)
-        sleep(0.5)
-        led1.value(0)
-
-    elif sw2_state == 0:   # pressed
-        led2.value(1)
-        sleep(0.5)
+    elif sw2_state == 1:
+        # Only switch2 pressed -> blink led2
         led2.value(0)
-
+        sleep(0.5)
+        led2.value(1)
+    
     sleep(0.1)
 ```
-## CIRCUIT DIAGRAM:
-<img width="826" height="587" alt="Screenshot 2026-02-11 105520" src="https://github.com/user-attachments/assets/39290b8c-c3b0-4e4d-9f2f-020f2a1d4eb5" />
 
-## OUTPUT 2A
-## STATE 0 0
-<img width="1919" height="906" alt="Screenshot 2026-02-11 112537" src="https://github.com/user-attachments/assets/efda920b-a57f-48d2-855b-b8a14866707f" />
+## OUTPUT 2A:
 
-## STATE 1 0
-<img width="1919" height="907" alt="Screenshot 2026-02-11 112553" src="https://github.com/user-attachments/assets/e2172460-1280-4612-a517-32ea53e062b3" />
+<img width="989" height="806" alt="image" src="https://github.com/user-attachments/assets/6410821d-9b16-41a6-b304-9109b4b20a7b" />
 
-## STATE 0 1
-<img width="1919" height="890" alt="Screenshot 2026-02-11 112607" src="https://github.com/user-attachments/assets/f2f81efc-0461-4282-902b-b52efce38887" />
+<img width="964" height="791" alt="image" src="https://github.com/user-attachments/assets/0dec0d60-94b9-401a-9f45-c2b3b55dff26" />
 
-## STATE 1 1
-<img width="1919" height="906" alt="Screenshot 2026-02-11 112622" src="https://github.com/user-attachments/assets/39cc1bd2-a537-49fe-abb3-6e7681503815" />
+<img width="1010" height="796" alt="image" src="https://github.com/user-attachments/assets/9729ac54-8b4f-4177-a3b2-90bcab0107a6" />
 
-## ## PROGRAM 2B:
+<img width="994" height="806" alt="image" src="https://github.com/user-attachments/assets/21592266-245c-4880-b990-feafcc72522b" />
+
+### EXPERIMENT 2B:
 ```
 from machine import Pin
 import time
-
-print("Pi Pico Simulation")
-
-# LED Pins (as per image)
-purple_led = Pin(0, Pin.OUT)
-buzzer = Pin(1, Pin.OUT)
-yellow_led = Pin(14, Pin.OUT)
-red_led = Pin(16, Pin.OUT)
-
+print("Pi Pico")
+led1 = Pin(0, Pin.OUT)
+led2 = Pin(3, Pin.OUT)
+led3 = Pin(6, Pin.OUT)
+buzzer=Pin(15,Pin.OUT)
 while True:
-    
-    # Purple LED
-    purple_led.value(1)
-    print("Purple LED ON")
+    led1.value(1) 
+    print("LED is ON")
+    time.sleep(1) 
+    led1.value(0)  
+    print("LED is OFF")
     time.sleep(1)
-    purple_led.value(0)
-    print("Purple LED OFF")
+    led2.value(1) 
+    print("LED is ON")
+    time.sleep(1) 
+    led2.value(0)  
+    print("LED is OFF")
     time.sleep(1)
-
-    # Yellow LED
-    yellow_led.value(1)
-    print("Yellow LED ON")
+    led3.value(1) 
+    print("LED is ON")
+    time.sleep(1) 
+    led3.value(0)  
+    print("LED is OFF")
     time.sleep(1)
-    yellow_led.value(0)
-    print("Yellow LED OFF")
-    time.sleep(1)
-
-    # Red LED
-    red_led.value(1)
-    print("Red LED ON")
-    time.sleep(1)
-    red_led.value(0)
-    print("Red LED OFF")
-    time.sleep(1)
-
-    # Buzzer
-    buzzer.value(1)
-    print("Buzzer ON")
-    time.sleep(1)
-    buzzer.value(0)
-    print("Buzzer OFF")
+    buzzer.value(1) 
+    print("Buzzer is ON")
+    time.sleep(1) 
+    buzzer.value(0)  
+    print("Buzzer is OFF")
     time.sleep(1)
 ```
-## OUTPUT 2B:
 
+### OUTPUT 2B:
+<img width="784" height="807" alt="Screenshot 2026-02-11 113701" src="https://github.com/user-attachments/assets/0610851d-c0b5-4cc1-8216-fbc28443ce03" />
 
+<img width="820" height="716" alt="Screenshot 2026-02-11 113727" src="https://github.com/user-attachments/assets/88b36b83-b560-4d28-bd49-31e7345b8ba5" />
+
+<img width="814" height="716" alt="Screenshot 2026-02-11 113746" src="https://github.com/user-attachments/assets/4149cac9-f405-4327-a170-51b364576c21" />
+
+<img width="857" height="707" alt="Screenshot 2026-02-11 113806" src="https://github.com/user-attachments/assets/fef80a2c-11cc-4cb8-a0a1-b2f0ab152f82" />
 
 ## RESULTS
 
