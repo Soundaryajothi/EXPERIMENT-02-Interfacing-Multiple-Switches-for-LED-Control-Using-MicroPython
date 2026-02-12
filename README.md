@@ -2,13 +2,13 @@
 
 
  
-## NAME:
+## NAME: SOUNDARYA J
 
-## DEPARTMENT:
+## DEPARTMENT: IT
 
-## ROLL NO:
+## ROLL NO: 212223220108
 
-## DATE OF EXPERIMENT:
+## DATE OF EXPERIMENT: 12.02.2026
 
 ## AIM
 
@@ -52,7 +52,8 @@ A MicroPython script reads the switch states and controls the LEDs accordingly.
 
 ### CIRCUIT DIAGRAM
  ![image](https://github.com/user-attachments/assets/1c7234b9-5041-4156-94b8-0b846adb6b8e)
-    Figure-01 circuit diagram of digital input interface 
+    
+Figure-01 circuit diagram of digital input interface 
 
 
 Connect switch 1 to GP2 and switch 2 to GP3.
@@ -63,26 +64,107 @@ Connect LED 2 to GP17 via a 330Ω resistor.
 
 Connect the other terminals of the switches to GND.
 
-## PROGRAM (MicroPython)
-''''
+## PROGRAM 2A:
+```
+from machine import Pin
+from time import sleep
 
+switch1 = Pin(1, Pin.IN, Pin.PULL_UP)
+switch2 = Pin(27, Pin.IN, Pin.PULL_UP)
 
+led1 = Pin(14, Pin.OUT)
+led2 = Pin(17, Pin.OUT)
 
- 
+while True:
+    sw1_state = switch1.value()
+    sw2_state = switch2.value()
 
-## OUTPUT
+    print("Switch 1 state:", sw1_state)
+    print("Switch 2 state:", sw2_state)
 
+    led1.value(0)
+    led2.value(0)
 
+    if sw1_state == 1 and sw2_state == 1:
+        led1.value(0)
+        led2.value(0)
 
-FIGURE-02: CIRCUIT CONNECTION
+    elif sw1_state == 0:   # pressed (PULL_UP → pressed = 0)
+        led1.value(1)
+        sleep(0.5)
+        led1.value(0)
 
-FIGURE-03: CODE EXECUTION OUTPUT
+    elif sw2_state == 0:   # pressed
+        led2.value(1)
+        sleep(0.5)
+        led2.value(0)
 
-FIGURE-04: LED STATUS BASED ON SWITCH INPUTS
-## TIMING DIGAGRAM 
+    sleep(0.1)
+```
+## CIRCUIT DIAGRAM:
+<img width="826" height="587" alt="Screenshot 2026-02-11 105520" src="https://github.com/user-attachments/assets/39290b8c-c3b0-4e4d-9f2f-020f2a1d4eb5" />
 
+## OUTPUT 2A
+## STATE 0 0
+<img width="1919" height="906" alt="Screenshot 2026-02-11 112537" src="https://github.com/user-attachments/assets/efda920b-a57f-48d2-855b-b8a14866707f" />
 
-UPLOAD YOUR TIMING DIGARAM HERE 
+## STATE 1 0
+<img width="1919" height="907" alt="Screenshot 2026-02-11 112553" src="https://github.com/user-attachments/assets/e2172460-1280-4612-a517-32ea53e062b3" />
+
+## STATE 0 1
+<img width="1919" height="890" alt="Screenshot 2026-02-11 112607" src="https://github.com/user-attachments/assets/f2f81efc-0461-4282-902b-b52efce38887" />
+
+## STATE 1 1
+<img width="1919" height="906" alt="Screenshot 2026-02-11 112622" src="https://github.com/user-attachments/assets/39cc1bd2-a537-49fe-abb3-6e7681503815" />
+
+## ## PROGRAM 2B:
+```
+from machine import Pin
+import time
+
+print("Pi Pico Simulation")
+
+# LED Pins (as per image)
+purple_led = Pin(0, Pin.OUT)
+buzzer = Pin(1, Pin.OUT)
+yellow_led = Pin(14, Pin.OUT)
+red_led = Pin(16, Pin.OUT)
+
+while True:
+    
+    # Purple LED
+    purple_led.value(1)
+    print("Purple LED ON")
+    time.sleep(1)
+    purple_led.value(0)
+    print("Purple LED OFF")
+    time.sleep(1)
+
+    # Yellow LED
+    yellow_led.value(1)
+    print("Yellow LED ON")
+    time.sleep(1)
+    yellow_led.value(0)
+    print("Yellow LED OFF")
+    time.sleep(1)
+
+    # Red LED
+    red_led.value(1)
+    print("Red LED ON")
+    time.sleep(1)
+    red_led.value(0)
+    print("Red LED OFF")
+    time.sleep(1)
+
+    # Buzzer
+    buzzer.value(1)
+    print("Buzzer ON")
+    time.sleep(1)
+    buzzer.value(0)
+    print("Buzzer OFF")
+    time.sleep(1)
+```
+## OUTPUT 2B:
 
 
 
